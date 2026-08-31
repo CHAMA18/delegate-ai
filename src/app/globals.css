@@ -1,0 +1,415 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   Delegate.ai — Design System
+   Dark premium tech aesthetic with violet → blue gradient
+   ============================================================ */
+
+@theme inline {
+  /* ---- shadcn compatibility tokens ---- */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* ---- Delegate.ai brand color tokens (Tailwind utility classes) ---- */
+  --color-brand-bg: #031427;
+  --color-brand-surface: #031427;
+  --color-brand-on-surface: #d3e4fe;
+  --color-brand-on-background: #d3e4fe;
+  --color-brand-surface-container-lowest: #000f21;
+  --color-brand-surface-container-low: #0b1c30;
+  --color-brand-surface-container: #102034;
+  --color-brand-surface-container-high: #1b2b3f;
+  --color-brand-surface-container-highest: #26364a;
+  --color-brand-surface-variant: #26364a;
+  --color-brand-surface-bright: #2a3a4f;
+  --color-brand-surface-dim: #031427;
+  --color-brand-surface-tint: #bec6e0;
+  --color-brand-inverse-surface: #d3e4fe;
+  --color-brand-inverse-on-surface: #213145;
+  --color-brand-inverse-primary: #565e74;
+  --color-brand-on-surface-variant: #c6c6cd;
+  --color-brand-outline: #909097;
+  --color-brand-outline-variant: #45464d;
+  --color-brand-error: #ffb4ab;
+  --color-brand-primary: #bec6e0;
+  --color-brand-primary-container: #0f172a;
+  --color-brand-on-primary: #283044;
+  --color-brand-on-primary-container: #798098;
+  --color-brand-secondary: #d0bcff;
+  --color-brand-secondary-container: #571bc1;
+  --color-brand-on-secondary-container: #c4abff;
+  --color-brand-tertiary: #89ceff;
+  --color-brand-tertiary-container: #001a29;
+  --color-brand-on-tertiary-container: #0089c3;
+
+  /* Accent brand colors (violet → blue gradient endpoints) */
+  --color-brand-violet: #8B5CF6;
+  --color-brand-blue: #3B82F6;
+  --color-brand-indigo: #6366F1;
+
+  /* Fonts */
+  --font-h1: 'Inter', sans-serif;
+  --font-h2: 'Inter', sans-serif;
+  --font-h3: 'Inter', sans-serif;
+  --font-h4: 'Inter', sans-serif;
+  --font-body-pro: 'Inter', sans-serif;
+  --font-body-sm: 'Inter', sans-serif;
+  --font-code-mono: 'JetBrains Mono', monospace;
+
+  /* Custom font sizes */
+  --text-h1: 40px;
+  --text-h1--line-height: 48px;
+  --text-h1--font-weight: 700;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h1-mobile: 32px;
+  --text-h1-mobile--line-height: 40px;
+  --text-h1-mobile--font-weight: 700;
+  --text-h2: 32px;
+  --text-h2--line-height: 40px;
+  --text-h2--font-weight: 600;
+  --text-h3: 24px;
+  --text-h3--line-height: 32px;
+  --text-h3--font-weight: 600;
+  --text-h4: 18px;
+  --text-h4--line-height: 26px;
+  --text-h4--font-weight: 600;
+  --text-body-pro: 16px;
+  --text-body-pro--line-height: 24px;
+  --text-body-pro--font-weight: 400;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+  --text-body-sm--font-weight: 400;
+  --text-code-mono: 13px;
+  --text-code-mono--line-height: 20px;
+  --text-code-mono--font-weight: 400;
+
+  /* Custom spacing scale (overrides defaults) */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
+  --spacing-xl: 64px;
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* Delegate.ai dark theme is the default (always dark) */
+.dark {
+  --background: oklch(0.145 0.02 250);
+  --foreground: oklch(0.93 0.02 240);
+  --card: oklch(0.205 0.02 250);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0.02 250);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.85 0.04 250);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.27 0.02 250);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.27 0.02 250);
+  --muted-foreground: oklch(0.71 0.02 250);
+  --accent: oklch(0.27 0.02 250);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-color: #031427;
+    color: #d3e4fe;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+}
+
+/* ============================================================
+   Delegate.ai — Custom Utility Classes
+   ============================================================ */
+
+/* Gradient text effect for brand emphasis */
+.ai-gradient-text {
+  background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Wider multi-stop gradient for hero accent */
+.ai-gradient-text-wide {
+  background: linear-gradient(110deg, #c4abff 0%, #8B5CF6 35%, #6366F1 65%, #89ceff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glassmorphism panel */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(30, 41, 59, 1);
+}
+
+.glass-panel-strong {
+  background: rgba(11, 28, 48, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(69, 70, 77, 0.5);
+}
+
+/* Glowing CTA button */
+.ai-glow-btn {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+  box-shadow: 0 4px 20px -2px rgba(139, 92, 246, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(139, 92, 246, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ai-glow-btn:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(59, 130, 246, 0.35));
+  box-shadow: 0 8px 32px -4px rgba(139, 92, 246, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  border-color: rgba(139, 92, 246, 0.8);
+}
+
+/* Gradient border using mask technique */
+.gradient-border {
+  position: relative;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.6), rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.6));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Animated aurora background blobs */
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  pointer-events: none;
+  animation: aurora-float 18s ease-in-out infinite;
+}
+
+@keyframes aurora-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-30px, 40px) scale(0.95);
+  }
+}
+
+/* Subtle grid background */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(69, 70, 77, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(69, 70, 77, 0.15) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+/* Animated gradient text shimmer */
+@keyframes shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, #c6c6cd 0%, #d3e4fe 25%, #c4abff 50%, #d3e4fe 75%, #c6c6cd 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 8s linear infinite;
+}
+
+/* Pulse glow ring for product mockup */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Scroll-reveal animation (initial state set inline via JS) */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+}
+.reveal.is-visible {
+  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Marquee for logo strip */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0b1c30;
+}
+::-webkit-scrollbar-thumb {
+  background: #26364a;
+  border-radius: 8px;
+  border: 2px solid #0b1c30;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #45464d;
+}
+
+/* Material Symbols baseline tweak */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+  line-height: 1;
+}
+.material-symbols-outlined.fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Selection */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #d3e4fe;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

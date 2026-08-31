@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Delegate.ai logo mark">
+  <defs>
+    <!-- Primary brand gradient: violet → indigo → electric blue -->
+    <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#c4abff"/>
+      <stop offset="40%" stop-color="#8B5CF6"/>
+      <stop offset="70%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    <!-- Secondary soft glow gradient -->
+    <linearGradient id="brandGradientSoft" x1="0%" y1="0%" x2="100%" y2="100%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.25"/>
+    </linearGradient>
+    <!-- Subtle inner highlight -->
+    <linearGradient id="brandHighlight" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Soft outer glow filter -->
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.45"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Background radial vignette -->
+    <radialGradient id="bgVignette" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0b1c30"/>
+      <stop offset="100%" stop-color="#031427"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect x="0" y="0" width="512" height="512" rx="112" ry="112" fill="url(#bgVignette)"/>
+
+  <!-- Ambient soft halo -->
+  <circle cx="256" cy="256" r="200" fill="url(#brandGradientSoft)" opacity="0.55"/>
+
+  <!--
+    LOGO MARK CONCEPT — "The Relay"
+    Two interlocking chevron forms, suggesting the handoff between
+    human and AI. Together they silhouette a stylised "D".
+    - Left chevron (filled gradient): the human / originator
+    - Right chevron (outlined, fading): the AI agent receiving work
+    - Dotted trail between them: the act of delegation itself
+  -->
+
+  <!-- Dotted transfer trail (left to right) -->
+  <g opacity="0.65">
+    <circle cx="180" cy="256" r="3.5" fill="url(#brandGradient)"/>
+    <circle cx="200" cy="256" r="3" fill="url(#brandGradient)"/>
+    <circle cx="220" cy="256" r="2.5" fill="url(#brandGradient)"/>
+    <circle cx="240" cy="256" r="2" fill="url(#brandGradient)"/>
+    <circle cx="260" cy="256" r="1.6" fill="url(#brandGradient)"/>
+    <circle cx="278" cy="256" r="1.2" fill="url(#brandGradient)"/>
+  </g>
+
+  <!-- Left chevron — originator / source — solid gradient -->
+  <g filter="url(#softGlow)">
+    <path
+      d="M 96 144
+         L 96 368
+         L 168 368
+         L 168 296
+         L 232 256
+         L 168 216
+         L 168 144
+         Z"
+      fill="url(#brandGradient)"
+      stroke="none"
+    />
+    <!-- Inner highlight overlay -->
+    <path
+      d="M 96 144
+         L 96 368
+         L 168 368
+         L 168 296
+         L 232 256
+         L 168 216
+         L 168 144
+         Z"
+      fill="url(#brandHighlight)"
+    />
+  </g>
+
+  <!-- Right chevron — agent / receiver — outlined gradient -->
+  <path
+    d="M 280 144
+       L 280 216
+       L 344 256
+       L 280 296
+       L 280 368
+       L 416 256
+       Z"
+    fill="none"
+    stroke="url(#brandGradient)"
+    stroke-width="14"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+
+  <!-- Tiny accent dot — the ".ai" signal — bottom right corner -->
+  <circle cx="416" cy="368" r="10" fill="url(#brandGradient)"/>
+  <circle cx="416" cy="368" r="4" fill="#031427"/>
+</svg>
