@@ -1,15 +1,15 @@
 # ---- Build stage ----
 # Delegate.ai — production Docker image for Render free tier (512MB limit)
-# Uses Node 20 + npm (proven, stable, matches Render's recommended setup)
+# Based on the proven PatikaGo Dockerfile pattern
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Copy package files
+# Install bun (for lockfile parsing) and copy package files
+RUN npm install -g bun
 COPY package.json bun.lock ./
 
-# Install bun to generate package-lock.json, then install with npm
-RUN npm install -g bun && \
-    bun install --frozen-lockfile --production=false
+# Generate package-lock.json from bun.lock, then install with npm
+RUN bun install --frozen-lockfile --production=false
 
 # Copy source
 COPY . .
