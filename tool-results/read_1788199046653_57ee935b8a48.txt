@@ -1,0 +1,366 @@
+     1→# Delegate.ai Landing Page — World-Class Design Brief
+     2→
+     3→> A research-driven, opinionated brief for redesigning the Delegate.ai landing page (AI agent that turns meeting notes into autonomous actions across Google Workspace). Synthesized from teardowns of the best SaaS/AI landing pages as of 2024–2026, including first-principle patterns from Linear, Vercel, Stripe, Cursor, Anthropic, Resend, Attio, Ramp, ElevenLabs, Framer, PostHog, Notion, Raycast, and Granola.
+     4→>
+     5→> **Sources cited inline.** The goal is concrete guidance you can implement, not generic advice.
+     6→
+     7→---
+     8→
+     9→## TL;DR — The Five Decisions That Matter Most
+    10→
+    11→1. **Pick a side of the 2026 aesthetic split, then out-craft everyone on that side.** SaaS design has bifurcated into *techno-futurist* (dark + neon + shaders + bento) vs *editorial* (cream + serif + whitespace). For Delegate.ai — a developer/productivity-adjacent AI agent — commit to **techno-futurist, dark-by-default, with one signature accent.** ([toimi.pro](https://toimi.pro/blog/best-saas-website-designs))
+    12→2. **The product is the demo.** The single highest-leverage move is replacing any hero illustration with a *live, looping animation* of a meeting note being parsed into Calendar events, Gmail drafts, Docs, and Tasks. No abstract gradient-of-data-flow. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+    13→3. **Own one color.** Linear owns purple, Raycast owns red, Cursor owns cyan. Delegate should **own the violet→blue gradient** but discipline it into a single accent system, not a wash.
+    14→4. **Headlines ≤12 words, understood in 5 seconds.** None of the top-20 SaaS sites use a headline longer than 12 words; ~40% of SaaS sites fail the 5-second clarity test. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026), [wearetenet.com](https://www.wearetenet.com/blog/saas-hero-section-best-practices))
+    15→5. **Performance is the design system.** Lighthouse >90, self-hosted fonts, shader effects that degrade gracefully. A fast, smooth site *is* the premium signal. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+    16→
+    17→---
+    18→
+    19→## 1. Reference Benchmarks — 12 Best-in-Class Pages
+    20→
+    21→| # | Page | What makes it exceptional |
+    22→|---|------|---------------------------|
+    23→| 1 | **Linear** ([linear.app](https://linear.app)) | The most-copied SaaS site of 2025–26. Kinetic hero headline swaps "teams" ↔ "agents"; beneath it, a pixel-perfect live mock where a Codex agent picks up issue ENG-2703, comments, and opens a PR — autonomously. "FIG 0.2 / FIG 0.3" labels make it read like a technical spec doc. Dark-by-default, signature purple, Inter Display. Lighthouse >90. |
+    24→| 2 | **Stripe** ([stripe.com](https://stripe.com)) | The gold standard enterprise benchmark. Its skewed WebGL mesh gradient (custom `minigl` canvas, purple/pink/cyan/orange) is the single most-recognized hero image in SaaS. Söhne typography, interactive multi-language code tabs, live dashboards, benchmark-grade micro-interactions. Restraint: the gradient does the heavy lifting, everything else is clean. |
+    25→| 3 | **Vercel** ([vercel.com](https://vercel.com)) | Repositioned as "The AI Cloud" on a near-black base with shader-based animated gradients on every product page. Geist Sans (their own typeface). Masterclass mega-menu IA (AI Cloud / Core / Security). Each sub-product gets its own micro-animation + accent within a strict monochrome system. |
+    26→| 4 | **Cursor** ([cursor.com](https://cursor.com)) | "The AI Code Editor / AI Coding Agent." Cyan accent ownership, real VS-Code-derived product UI in the hero with a live autocomplete demo. Proves the "product is the demo" pattern for an agent product specifically — directly relevant to Delegate. |
+    27→| 5 | **Attio** ([attio.com](https://attio.com)) | The current benchmark for *restrained* AI-native design. Hero runs the "Ask Attio" natural-language command live, returning filtered data in real time. Monochrome black/white with subtle per-section pastel accents; bento cards with the most refined hover micro-interactions on the internet (scale + shadow + content reveal). Rivals Linear at the top of the category. |
+    28→| 6 | **Ramp** ([ramp.com](https://ramp.com)) | Formalized the bento grid into an internal *design system* (consistent rounded tiles, uniform gutters, size-as-hierarchy). Scroll-driven product narrative with counter-animated numbers and dense infographics. The model for treating bento as language, not decoration. |
+    29→| 7 | **ElevenLabs** ([elevenlabs.io](https://elevenlabs.io)) | The only site that makes the product *audible* in the hero — animated audio waveform + hover a voice to hear it play instantly. Pitch-black with neon white/cyan. Proves the best "product as demo" executions use the product's actual sensory capability. |
+    30→| 8 | **Framer** ([framer.com](https://framer.com)) | The site eats its own dog food — a live demo reel of the tool: Holo WebGL shader, cursor-triggered reveals, parallax, kinetic type, live-editable previews. The most aggressive motion use on this list, yet still fast and mobile-clean. |
+    31→| 9 | **Anthropic** ([anthropic.com](https://anthropic.com)) | The editorial counter-camp. Warm cream/off-white, Copernicus-style serif display, Tiempos Text body, muted earth tones, generous whitespace, research/safety at parity with marketing. The strategic lesson: *refusing* the dominant aesthetic can be the strongest differentiator. |
+    32→| 10 | **Raycast** ([raycast.com](https://www.raycast.com)) | "Your shortcut to everything." Command-palette aesthetic, signature red accent, productivity-launcher feel. Tight, fast, ergonomic — a masterclass in making a small utility feel essential. |
+    33→| 11 | **PostHog** ([posthog.com](https://posthog.com)) | Refuses 2026's dominant aesthetic entirely — Max-the-hedgehog hand-drawn illustrations, custom *Squeak* display font + Matter SQ body, saturated multi-color cards. Proof that personality-led design still converts. (Counter-example — not Delegate's direction, but validates committing to a point of view.) |
+    34→| 12 | **Granola** ([granola.ai](https://granola.ai)) | AI meeting-notes peer. Praised specifically for letting the page "breathe" — sparse, confident, real product screenshots over decoration. The most direct competitive reference for Delegate's category. ([medium.com/@marias_martin](https://medium.com/@marias_martin/landing-pages-in-2025-and-how-to-get-them-right-for-ai-products-802ebf43a1ee)) |
+    35→
+    36→*Honorable mentions:* Resend (developer email, Geist, transparent pricing, founder bylines), Perplexity (answer-engine clarity), Notion AI (warm persona navigation), Sierra & Decagon (enterprise AI-agent sites — dense, proof-led), Lindy (agent-led productivity).
+    37→
+    38→---
+    39→
+    40→## 2. Visual Design Patterns That Signal "Premium / World-Class"
+    41→
+    42→### 2.1 Typography
+    43→
+    44→**The 2026 reality: a bespoke/commissioned typeface is now the status signal at the top tier** — Vercel commissioned Geist, Figma commissioned Figma Sans, GitHub commissioned Mona Sans, Cursor commissioned Cursor Gothic. ([plinthstudio.dev](https://plinthstudio.dev/blog/best-fonts-startup-websites))
+    45→
+    46→**Top-tier font families:**
+    47→- **Inter / Inter Display** — the safest default; used by Linear, Notion, GitHub, Raycast. Variable 100–900; v4 (2023) added optical sizes, so it scales to 96–120px headlines. *Free, OFL.*
+    48→- **Geist** — Vercel's own; wider than Inter, ships with Geist Mono. The "we're an AI-native startup" signal. Used by Vercel, v0, Turbo, Resend, hundreds of YC AI startups. *Free, OFL.*
+    49→- **Söhne** (Klim) — the premium pick. Stripe, OpenAI, Substack. "Helvetica with personality and warmth." ~$70/style.
+    50→- **Mona Sans + Hubot Sans** — GitHub's free pair (OFL); strong, versatile grotesques.
+    51→- **Serifs (for warmth/editorial moments):** Tiempos Text (Anthropic body), Instrument Serif (free Tiempos alternative), PP Editorial New (the 2024–26 "indie signature" display serif).
+    52→- **Monospace:** Geist Mono (default), JetBrains Mono (most-used in startup land), Söhne Mono (premium), Berkeley Mono (cool-kid, used by Anthropic in places).
+    53→
+    54→**Concrete recommendation for Delegate.ai:** **Geist Sans + Geist Mono**, with **Instrument Serif** for select pull-quotes/stat moments. Total cost: $0. This is the exact stack that reads "credible 2026 AI-native startup." If budget allows (~$280), upgrade to **Söhne + Tiempos Text + Söhne Mono** for Stripe-tier polish. ([plinthstudio.dev](https://plinthstudio.dev/blog/best-fonts-startup-websites))
+    55→
+    56→**Sizes / weights / tracking:**
+    57→- **Hero (desktop):** `clamp(2.75rem, 6vw, 5rem)` — i.e. ~44–80px. Linear and Vercel run headlines at **56–96px**. Use Inter/Geist Display weight 600–700 with **negative tracking (-0.02em to -0.04em)** at display sizes.
+    58→- **Hero (mobile):** clamp floor ~36–40px, never below 32px.
+    59→- **H2 (section):** ~32–48px, weight 600.
+    60→- **Body:** 16–18px / 1.6 line-height, max-width ~65–72ch.
+    61→- **Eyebrow / label caps:** 0.75–0.875rem, weight 500–600, **letter-spacing +0.08em to +0.12em**, uppercase, accent-tinted color.
+    62→- **Mono labels** (technical "FIG 0.2" style à la Linear): Geist Mono, 0.75rem, muted color.
+    63→
+    64→**Avoid in 2026:** Cormorant Garamond + Lato/Open Sans (Squarespace-template smell), Montserrat (default Wix look), Playfair Display (overused elegant-serif). ([plinthstudio.dev](https://plinthstudio.dev/blog/best-fonts-startup-websites))
+    65→
+    66→**Performance:** **Self-host all fonts.** Never use Google Fonts CDN — it adds an external request costing 50–200ms on every load and hurts Core Web Vitals. Next.js `next/font` handles optimization automatically.
+    67→
+    68→### 2.2 Color
+    69→
+    70→**The dominant 2026 pattern: dark-as-default + ONE electric accent, used with restraint.** Roughly 3/4 of top design-led SaaS follow this. The discipline isn't the dark mode — it's the *single accent color*. ([toimi.pro](https://toimi.pro/blog/best-saas-website-designs))
+    71→
+    72→- **One-color ownership** = key brand differentiator. Linear=purple, Raycast=red, Mercury=lime, Cursor=cyan, ElevenLabs=white/cyan.
+    73→- **No pure black `#000000`** — use off-black/charcoal (e.g. `#0A0A0F`, `#08090C`). Pure black crushes depth.
+    74→- **Contrast ratios:** body text ≥ **7:1** against dark background (WCAG AAA for body). Accent saturation cap ~80% — oversaturated neons hurt readability. ([exclusiveaddons.com](https://exclusiveaddons.com/best-color-for-websites))
+    75→- **Gradients:** used *as a controlled accent*, not a wash. Stripe's mesh gradient is the ceiling; everyone else copied it. If you use a gradient, make it do narrative work (it can represent the "notes → actions" transformation).
+    76→- **Dark-mode best practices:** accent for CTAs/active states only; surfaces differentiated by 1–2% lightness steps, not hue shifts; borders at `rgba(255,255,255,0.06–0.12)`; text at `#E5E7EB`/`#F5F5F7`, never pure white on pure black.
+    77→
+    78→### 2.3 Spacing & Rhythm
+    79→
+    80→- **Grid:** 12-column, `max-width: 1200–1280px` centered, `1.5rem` side padding (scaled to `clamp(1rem, 4vw, 2rem)` for responsiveness). ([designmd.app](https://designmd.app/library/bento-grids))
+    81→- **Section vertical padding:** `clamp(4rem, 8vw, 8rem)` (≈64–128px). Premium pages breathe — the gap *between* sections matters more than the content inside them. ([designmd.app](https://designmd.app/library/bento-grids))
+    82→- **Base spacing unit:** 8px (0.5rem); scale on an 8/16/24/32/64 rhythm.
+    83→- **Whitespace discipline is the #1 amateur tell.** Granola and Ciro are praised specifically for letting pages "breathe." Every pixel must justify its presence. ([medium.com/@marias_martin](https://medium.com/@marias_martin/landing-pages-in-2025-and-how-to-get-them-right-for-ai-products-802ebf43a1ee))
+    84→
+    85→### 2.4 Borders & Shadows
+    86→
+    87→- **Hairline borders:** `1px solid rgba(255,255,255,0.08)` (dark) / `rgba(0,0,0,0.06)` (light). The signature "premium line."
+    88→- **One shadow level maximum** on cards — prefer border or background differentiation over elevation. ([designmd.app](https://designmd.app/library/bento-grids))
+    89→- **Layered shadows** (when used): e.g. `0 2px 12px rgba(0,0,0,0.06)` light, or `0 8px 32px rgba(0,0,0,0.4) + inset 0 1px 0 rgba(255,255,255,0.05)` dark for depth + edge light.
+    90→- **Glassmorphism evolution:** 2026 glass = `backdrop-blur(12px)` + `bg rgba(255,255,255,0.03)` + hairline top border. Use sparingly on nav/sticky bars, not whole sections. The "frosted window chrome" around product screenshots (à la Linear/Anthropic) is the tasteful version.
+    91→- **Corner radius scale:** sm 16–20px, md 28–40px, lg 48–60px. Bento cards ~24–28px. Buttons fully-rounded pill or 12–16px. Stay consistent.
+    92→
+    93→### 2.5 Motion
+    94→
+    95→- **Scroll-driven storytelling** (GSAP ScrollTrigger) — the page is a *sequence that unfolds*, not a stack of sections. Ramp's walkthrough is the model.
+    96→- **Stagger reveals:** entry = fade + translateY(16px→0) over ~420ms ease-out; children stagger **80ms** apart. ([designmd.app](https://designmd.app/library/bento-grids))
+    97→- **Kinetic variable-font headlines** that swap words on a loop (Linear's "teams"/"agents") — signature for an agent product.
+    98→- **Magnetic buttons:** spring physics (Framer Motion `useSpring`/`useMotionValue`) — button subtly follows cursor. Satisfying, high-end. ([framer.com marketplace](https://www.framer.com/marketplace/components/magnetic-button-01))
+    99→- **Cursor-following spotlights:** radial gradient that tracks the pointer across dark hero/card sections. ([framer.com Spotlighthover](https://www.framer.com/community/marketplace/components/spotlighthover))
+   100→- **Hover choreography:** scale(1.02) + shadow expansion + content reveal, 200ms ease-out. ([designmd.app](https://designmd.app/library/bento-grids))
+   101→- **Only animate `transform` and `opacity`** — never layout-triggering properties. This is non-negotiable for the >90 Lighthouse score. ([designmd.app](https://designmd.app/library/bento-grids))
+   102→- **Parallax:** subtle (≤20px offset); aggressive parallax reads as 2015.
+   103→
+   104→---
+   105→
+   106→## 3. Hero Section Anatomy
+   107→
+   108→### 3.1 The canonical structure (top-to-bottom)
+   109→
+   110→```
+   111→┌─────────────────────────────────────────────┐
+   112→│  [Eyebrow badge]   "Now in beta" / pill       │  ← optional, accent-tinted
+   113→│                                                │
+   114→│  HEADLINE  (≤12 words, 56–96px, weight 600-700)│
+   115→│  [rotating/kinetic word optional]              │
+   116→│                                                │
+   117→│  Subhead  (1–2 sentences, 18–20px, muted)      │  ← explains *how*, not just what
+   118→│                                                │
+   119→│  [ Primary CTA ]   [ Secondary CTA / "Watch" ]  │  ← ~1.4 CTAs avg; primary solid accent
+   120→│                                                │
+   121→│  Trust line  ("Trusted by X teams" + 6-8 logos)│  ← only 46% do this; do it
+   122→│                                                │
+   123→│  ╔══════════════════════════════════════════╗ │
+   124→│  ║   LIVE PRODUCT DEMO / animated mockup     ║ │  ← "product is the demo" — NOT a screenshot
+   125→│  ╚══════════════════════════════════════════╝ │
+   126→└─────────────────────────────────────────────┘
+   127→```
+   128→
+   129→**The data (28-SaaS study):** avg ~1.4 CTAs in hero; 82% have a clear hero CTA; only 46% include hero social proof (underused — do it); 75% use a featured image, and of those **57% show product UI in action** (vs 33% illustrations, 9.5% people). ([wearetenet.com](https://www.wearetenet.com/blog/saas-hero-section-best-practices))
+   130→
+   131→### 3.2 Headline copy patterns
+   132→
+   133→- **Imperative + outcome:** "Ship features faster" (Linear-adjacent), "The AI code editor" (Cursor), "Your shortcut to everything" (Raycast).
+   134→- **Contrast / before-after:** implied transformation.
+   135→- **Outcome-focused, not feature-focused.** "Built to make you extraordinarily productive" (Cursor).
+   136→- **Short.** None of the top-20 exceed 12 words. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   137→- **Lead with the job, not "AI".** For AI-*native* products (an agent), the rule inverts — you *can* lead with it, but name the *outcome* of the agent, not "AI-powered."
+   138→
+   139→### 3.3 Hero visual treatment
+   140→
+   141→| Treatment | When it works | Verdict for Delegate |
+   142→|-----------|---------------|----------------------|
+   143→| Static screenshot | Never in 2026 — reads "we have nothing to show" | ❌ |
+   144→| Animated mockup (CSS/Lottie) | Default premium choice — loops, feels alive | ✅ baseline |
+   145→| Live interactive slice | Best-in-class — user does *one* thing (Stripe checkout, Attio "Ask") | ✅✅ stretch goal |
+   146→| 3D / WebGL scene | Only if product is visual/dev tool (Vercel, Framer) | ⚠️ risky |
+   147→| Abstract gradient | Dead since ~2023 — "no product to show" | ❌ |
+   148→
+   149→**For Delegate:** an **animated mockup that loops** showing the agent working — *with an optional interactive "paste your note" field as the stretch goal.* The mockup must show the actual transformation: meeting note → cascading actions. (See §8.)
+   150→
+   151→### 3.4 Stats / social proof placement
+   152→
+   153→- **Above the fold, in/near hero:** a single trust line + 6–8 monochrome logos at 40–60% opacity. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   154→- **A numbered stat row** (count-up on scroll) as the second viewport — e.g. "2.4M actions created autonomously • 38 hrs saved / user / mo • 99.2% action accuracy." Numbers are the most credible proof form. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   155→- **If you don't have real recognizable logos yet, skip the strip entirely** — an empty strip hurts more than none. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   156→
+   157→---
+   158→
+   159→## 4. Product Mockup / Dashboard Preview Treatment
+   160→
+   161→The 2024-era illustration-heavy hero is dead — visitors now read illustration as *"they have nothing to show me."* The shift to real product UI is near-universal in 2026. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   162→
+   163→**How the best pages make a mockup feel alive (not a static screenshot):**
+   164→
+   165→1. **Looping autonomous animation.** Linear's Codex agent picks up ENG-2703, types a comment, opens a PR — on a ~6–8s loop. Attio's "Ask Attio" runs a query and returns filtered rows. The user sees *work happening*. ([toimi.pro](https://toimi.pro/blog/best-saas-website-designs))
+   166→2. **Window chrome that reads "real."** Frosted title bar with traffic-light dots, a real-looking URL/command bar, FIG x.x technical labels (Linear's spec-doc framing). ([toimi.pro](https://toimi.pro/blog/best-saas-website-designs))
+   167→3. **Typed-text effect** — the agent "typing" a summary or drafting an email with a blinking caret.
+   168→4. **Live ticker / activity feed** inside the mockup — a vertical stream of status pills ("✓ Calendar event created", "✓ Draft saved in Gmail", "→ Doc outlined") that scroll-fades in. This is *perfect* for an agent product.
+   169→5. **Counter-animated numbers** (Ramp) — metrics tick up as you scroll into view.
+   170→6. **Scale-up of type 20–40%** from production so it stays readable when scaled down. Crop hard to the legible moment. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   171→7. **Subtle parallax / tilt on scroll** (≤3deg, transform-only) — never aggressive.
+   172→8. **Compositing integrity:** show *real* UI states. Users notice when a screenshot is fictional. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   173→
+   174→**Anti-pattern:** the floating-isometric MacBook-on-gradient. Dead.
+   175→
+   176→---
+   177→
+   178→## 5. Modern Interaction Patterns That Distinguish Elite Pages
+   179→
+   180→| Pattern | What it is | Where it shines | For Delegate? |
+   181→|---|---|---|---|
+   182→| **Magnetic / spring buttons** | Button translates toward cursor via spring physics on hover | Primary CTAs, "Get started" | ✅ signature on hero CTA |
+   183→| **Cursor-following spotlight** | Radial gradient tracks pointer across dark hero/bento | Dark hero, feature card grids | ✅ on hero + bento |
+   184→| **Number count-up on scroll** | Metrics animate 0→value when in view | Stats row, social proof | ✅ stats row |
+   185→| **Live ticker / activity feed** | Vertical scrolling stream of events inside mockup | Product mockup, "agent at work" | ✅✅ signature — agent action log |
+   186→| **Bento grid (Apple-style)** | Asymmetric rounded tiles, size-as-hierarchy | Feature section | ✅ primary feature layout |
+   187→| **Marquee logo strip** | Infinite-scroll logos, react to scroll velocity | Trust/social proof | ✅ if real logos; else skip |
+   188→| **Sticky scroll-driven story** | Section pins + narrative unfolds on scroll | "How it works" | ✅ the workflow section |
+   189→| **Reveal-on-scroll staggered children** | Cards fade+rise 80ms apart | Feature grids, lists | ✅ everywhere |
+   190→| **Hover depth (lift/glow/border-shift)** | scale(1.02)+shadow+border-color on hover | Bento cards, nav | ✅ |
+   191→| **Kinetic rotating headline** | Headline word swaps on loop (teams↔agents) | Hero | ✅ "notes"↔"actions"↔"decisions" |
+   192→| **Custom cursor states** | Cursor morphs over interactive zones | Optional, dev-tool vibe | ⚠️ only if tasteful |
+   193→| **Live interactive demo slice** | User does *one* bounded thing in-page | Hero stretch goal | ✅✅ "paste your notes" input |
+   194→
+   195→**Bento grid discipline (the Ramp system):** size encodes importance; consistent internal padding across all cards even when dimensions vary; flat surfaces with ≤1 shadow level; asymmetry *with intent*, not decoration; generous gaps > content density. 4–12 items. Rounded 24–28px. ([designmd.app](https://designmd.app/library/bento-grids))
+   196→
+   197→**Marquee rules:** 6–8 logos, monochrome, 40–60% opacity, aspect-ratio-balanced, reacts to scroll velocity, pauses on hover. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026), [annnimate.com](https://annnimate.com/patterns/marquee))
+   198→
+   199→---
+   200→
+   201→## 6. Copy / Microcopy That Elevates Perceived Quality
+   202→
+   203→**7 hero headline examples from top AI product pages (study the register, don't copy):**
+   204→
+   205→1. **Cursor** — *"The AI Code Editor"* (and 2025: *"AI Coding Agent for Building Ambitious Software — Built to make you extraordinarily productive"*) — noun + outcome.
+   206→2. **Linear** — *"The agent-native product development system"* (kinetic swap: teams/agents) — category-defining noun.
+   207→3. **Raycast** — *"Your shortcut to everything"* — promise of compression.
+   208→4. **Attio** — *"The AI-native CRM that looks like software from 2028"* — temporal ambition.
+   209→5. **Vercel** — *"The AI Cloud"* — single-word category ownership.
+   210→6. **ElevenLabs** — *"Research and deploy AI voice"* — verb + domain.
+   211→7. **Anthropic / Claude** — *"AI built for enterprise impact"* / *"Claude is AI for all of us"* — plain, trust-led.
+   212→
+   213→**Microcopy principles:**
+   214→- **Banned words (2026 clichés):** "Elevate," "Seamless," "Unleash," "Next-Gen," "Revolutionary," "AI-powered" (as lead). ([designmd.app](https://designmd.app/library/bento-grids))
+   215→- **Subhead = *how*, not *what*.** Headline states value; subhead states mechanism. ("Turn meeting notes into done work" → "Delegate reads your notes and writes the calendar invites, emails, docs, and tasks for you.")
+   216→- **Buttons:** verb + outcome. "Start delegating" beats "Get started." "Watch it work" beats "Learn more."
+   217→- **Numbered proof beats adjectives.** "Reduced billing reconciliation from 8 hours to 12 minutes" >> "transformed our business." ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   218→- **Founder bylines on changelog/launch posts** — signed, real photos. "The Team" is the least authoritative voice on the page. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   219→
+   220→---
+   221→
+   222→## 7. Common Mistakes to Avoid (Amateur vs World-Class)
+   223→
+   224→Synthesized from teardowns ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026), [toimi.pro](https://toimi.pro/blog/best-saas-website-designs), [zoho.com](https://www.zoho.com/landingpage/landing-page-mistakes.html), [plinthstudio.dev](https://plinthstudio.dev/blog/best-fonts-startup-websites)):
+   225→
+   226→**Layout & visuals**
+   227→1. Hero illustrations of "abstract data flow" → reads "we have nothing to show."
+   228→2. Stock photography of diverse smiling teams → reads "we have no real customers."
+   229→3. Generic "trusted by 10,000+ teams" with no logos → worse than no claim at all.
+   230→4. 3-column equal-width feature grids → reads templated; use zig-zag or asymmetric bento.
+   231→5. Floating isometric MacBook-on-gradient → dead since 2020.
+   232→
+   233→**Messaging**
+   234→6. Headlines >12 words → none of the top-20 do this.
+   235→7. "Request a demo" as the *only* CTA → kills SMB self-serve; reserve for tiers >$1,500/mo.
+   236→8. Pricing behind a form for SMB → costs 30–50% of trials.
+   237→9. Leading with "AI-powered" for non-AI-native products → AI is now a hygiene factor, not a differentiator (inverts if you *are* AI-native, like Delegate).
+   238→10. Copy clichés: Elevate / Seamless / Unleash / Next-Gen.
+   239→
+   240→**Craft**
+   241→11. Google Fonts CDN → +50–200ms load; self-host.
+   242→12. Cormorant Garamond / Montserrat / Playfair → Squarespace-template smell.
+   243→13. Pure black `#000000` → crushes depth; use off-black.
+   244→14. `h-screen` → use `min-h-[100dvh]` (mobile viewport bug).
+   245→15. Animating layout properties (width/top/margin) → jank; animate only `transform`/`opacity`.
+   246→16. Low contrast / requiring squinting → accessibility failure.
+   247→17. Auto-playing video with sound → dead since 2018.
+   248→18. Mega-menus for SMB SaaS → reads "nothing focused to sell."
+   249→19. Copying Linear's palette without the structural decisions underneath → "looks like Linear, converts like a clone." ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026))
+   250→20. Oversaturated neon accents (saturation >80%) → hurts readability.
+   251→
+   252→---
+   253→
+   254→## 8. Concrete Recommendations for Delegate.ai
+   255→
+   256→### 8.1 Recommended section order (11 sections)
+   257→
+   258→This sequence is adapted from the designkey.studio "build order" (hero → proof → one-screen value explainer → pricing → AI band → case study → disqualifier → close) and tuned for an AI-agent product. ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026), [imini.com](https://imini.com/blogs/ai-agent-landing-page))
+   259→
+   260→| # | Section | Purpose | Visual treatment |
+   261→|---|---------|---------|------------------|
+   262→| **1** | **Hero** | State the job in ≤12 words; show the agent working | Dark navy base; kinetic headline; **live looping mockup** of meeting-note → actions cascade; magnetic primary CTA "Start delegating"; cursor spotlight |
+   263→| **2** | **Trust / logo strip + stat row** | Instant credibility | Monochrome logo marquee (if real logos) + 3 count-up stats (actions created, hrs saved, accuracy %). Skip marquee if no real logos — go straight to stats |
+   264→| **3** | **The problem (3-seconds-of-empathy)** | Name the pain: notes die in Notion/docs; nothing becomes action | Sticky scroll-driven story — a meeting note "fades" while ghost-tasks pile up. Short, emotional |
+   265→| **4** | **The product is the demo (interactive)** | Let them *experience* it | A bounded input field: "Paste your meeting notes." On submit, an animated mockup shows the agent parsing → generating Calendar/Gmail/Docs/Tasks. This is the conversion lift of 2026 |
+   266→| **5** | **How it works (3 steps)** | Demystify the agent | Sticky-scroll narrative: ① Capture (notes/ transcript/ audio) ② Delegate plans actions ③ You approve, Google Workspace executes. Pinned-left text, scrolling visuals right |
+   267→| **6** | **Feature bento grid** | Show capability breadth without a bullet list | Asymmetric bento (Ramp-style). Big tile = "Works across Google Workspace" (Calendar/Gmail/Docs/Tasks/Sheets logos). Smaller tiles = integrations, privacy, human-in-the-loop approval, memory |
+   268→| **7** | **"Delegate vs …" comparison** | Capture decision-intent (users are comparing tools) | Honest comparison table: Delegate vs manual / vs a chatbot / vs a notes app. Frame where the agent wins (connected, multi-step output) vs doesn't ([imini.com](https://imini.com/blogs/ai-agent-landing-page)) |
+   269→| **8** | **Social proof / case study with a number** | Credible, specific proof | One hero customer story leading with a metric: "Cut follow-up admin from 6 hrs to 4 min/week." Plus 2–3 short testimonials with role + company |
+   270→| **9** | **The honest "who it's for / not for" section** | Disqualify wrong fit (qualification via honesty) | "Delegate is for teams who live in Google Workspace and drown in meeting follow-up. It's not for you if you need full custom automation (use n8n) or non-Google stacks." Linear's "not for everyone" pattern ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026)) |
+   271→| **10** | **Pricing (transparent, ICP-named)** | Self-serve, no demo gate for SMB | ICP-named tiers: "Solo" / "Team" / "Org". Show price, limits, upgrade path. "Talk to sales" only for Org/$1,500+ ([designkey.studio](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026)) |
+   272→| **11** | **Final CTA / close** | One last decisive action | Quiet, confident. Re-state outcome + single CTA. Optional subtle shader. Footer with founder-signed changelog link |
+   273→
+   274→*(Optional §12 FAQ targeting real search phrasing — "what is an AI agent for meetings," "how is it different from a chatbot" — for long-tail SEO. [imini.com](https://imini.com/blogs/ai-agent-landing-page))*
+   275→
+   276→### 8.2 Signature micro-interactions for the brand
+   277→
+   278→These three should become Delegate's *signature* — repeated, consistent, recognizable:
+   279→
+   280→1. **The "action cascade" mockup.** A meeting-note card sits at top-left; on loop, typed text streams into it, then *action cards peel off and fly* into labeled Google Workspace buckets (Calendar / Gmail / Docs / Tasks) on the right. Each card lands with a soft spring + a ✓ status pill fades in. A live ticker on the side logs each action ("✓ Created event 'Sync with Priya' — Thu 2pm"). This is the visual metaphor for the entire product. Loop ~8s, pause on hover, slow on scroll-out.
+   281→
+   282→2. **Kinetic headline word-swap.** Hero headline rotates the operative noun: *"Turn meeting notes into **actions**."* → *"...into **decisions**."* → *"...into **momentum**."* Linear-style variable-font swap, 2.4s each. Signals "agent that does many things" without listing them.
+   283→
+   284→3. **Cursor-following violet spotlight + magnetic CTA.** A radial violet→blue gradient tracks the pointer across the hero (and the bento section). The primary CTA has spring-physics magnetic pull. Restrained, premium, on-brand.
+   285→
+   286→### 8.3 Color palette recommendation
+   287→
+   288→**Keep your palette — it's well-chosen — but discipline it into a system.** The violet→blue gradient is a genuine differentiator in a category where most agents pick a single neon. Your job is to *restrain* it so it reads as intentional, not wash.
+   289→
+   290→```
+   291→/* Delegate.ai — recommended token system */
+   292→
+   293→/* Surfaces (dark-by-default) */
+   294→--bg-base:        #031427;   /* your navy — keep, it's distinctive */
+   295→--bg-elevated:    #0A1E36;   /* +1 lightness step for cards */
+   296→--bg-surface:    #102544;   /* +1 more for hover/active */
+   297→--bg-overlay:     rgba(3,20,39,0.72);  /* modal/nav backdrop */
+   298→
+   299→/* Text */
+   300→--text-primary:   #F5F7FA;   /* near-white, not pure */
+   301→--text-secondary: #A9B4C4;   /* muted; ~7:1 on base */
+   302→--text-tertiary:  #6B7689;   /* labels, captions */
+   303→
+   304→/* Borders / hairlines */
+   305→--border-subtle:  rgba(255,255,255,0.08);
+   306→--border-strong:  rgba(255,255,255,0.14);
+   307→--border-accent:  rgba(139,92,246,0.40);
+   308→
+   309→/* Accent system — ONE gradient, used as accent not wash */
+   310→--accent-violet:  #8B5CF6;   /* primary accent — CTAs, active states */
+   311→--accent-blue:    #3B82F6;   /* secondary accent — links, secondary */
+   312→--accent-grad:    linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+   313→--accent-grad-soft: radial-gradient(circle at 50% 50%, rgba(139,92,246,0.18), rgba(59,130,246,0.06) 60%, transparent 75%);
+   314→
+   315→/* Semantic */
+   316→--success:        #34D399;
+   317→--warning:        #FBBF24;
+   318→--danger:        #F87171;
+   319→
+   320→/* Usage rules */
+   321→/* - Gradient appears ONLY in: hero CTA fill, hero spotlight, kinetic headline gradient-text, bento "Works across Workspace" hero tile, footer shader. */
+   322→/* - Solid --accent-violet for: active nav item, focused input ring (2px offset 2px), toggle on-state. */
+   323→/* - Everything else (charts, avatars, icons) runs in restrained grayscale. */
+   324→/* - Saturation cap ~80%; contrast ≥7:1 for body text. */
+   325→```
+   326→
+   327→**Why this works:** You keep your distinctive navy + violet→blue identity (matches the "one-color ownership" trend — you *own* the violet→blue gradient), but you apply the restraint that separates Linear from a clone: the gradient is a *controlled accent*, surfaces step by lightness not hue, and text never sits on a gradient. The navy base is warmer than the typical `#0A0A0F` techno-futurist black — that's a *feature*, it differentiates you from the sea of near-black Vercel clones while staying firmly in the dark-mode camp.
+   328→
+   329→**Light mode:** build it, but dark is default. Light mode tokens: invert to `#FAFBFC` base, `#031427` text, same accent system. Respect `prefers-color-scheme`.
+   330→
+   331→---
+   332→
+   333→## 9. Implementation checklist (the "ship it world-class" list)
+   334→
+   335→- [ ] **Fonts:** Geist Sans + Geist Mono + Instrument Serif, self-hosted via `next/font`. Negative tracking on hero (-0.03em).
+   336→- [ ] **Hero:** headline ≤12 words, kinetic word-swap, live looping "action cascade" mockup, magnetic CTA, cursor spotlight, trust line.
+   337→- [ ] **No hero illustration.** Real (animated) product UI only.
+   338→- [ ] **Bento grid** with Ramp-style discipline: size-as-hierarchy, ≤1 shadow, 24–28px radius, 80ms stagger reveal.
+   339→- [ ] **Sticky scroll story** for "how it works" (GSAP ScrollTrigger or Motion One).
+   340→- [ ] **Count-up stats** on scroll; honest comparison section; ICP-named transparent pricing.
+   341→- [ ] **Motion:** only `transform`/`opacity`; entry 420ms ease-out; hover 200ms; spring CTAs.
+   342→- [ ] **Performance:** Lighthouse >90 all categories; fonts self-hosted; images AVIF/WebP; shaders with `prefers-reduced-motion` + IntersectionObserver pause off-screen.
+   343→- [ ] **Accessibility:** contrast ≥7:1 body; focus rings 2px accent; keyboard-navigable interactive demo; `prefers-reduced-motion` disables all non-essential motion.
+   344→- [ ] **Copy audit:** no Elevate/Seamless/Unleash/Next-Gen; founder bylines on changelog.
+   345→- [ ] **Founder-signed changelog**, real customer logos *or none*, one case study with a specific number.
+   346→
+   347→---
+   348→
+   349→## 10. Sources
+   350→
+   351→- [designkey.studio — SaaS Website Design: Patterns That Convert (2026)](https://www.designkey.studio/post/saas-website-design-patterns-that-convert-2026) — 12-pattern field guide (Linear, Vercel, Stripe, Cursor, Anthropic, Resend, Posthog teardowns)
+   352→- [toimi.pro — Top 10 Best SaaS Website Designs 2026](https://toimi.pro/blog/best-saas-website-designs) — the aesthetic-split thesis; Linear/Stripe/Vercel/Framer/Notion/Attio/Ramp/ElevenLabs/PostHog/Anthropic deep dives
+   353→- [plinthstudio.dev — Best Fonts for Startup Websites 2026](https://plinthstudio.dev/blog/best-fonts-startup-websites) — typeface tier list with real brands
+   354→- [wearetenet.com — SaaS Hero Section Best Practices (28-site study)](https://www.wearetenet.com/blog/saas-hero-section-best-practices) — hero data (CTAs, clarity, social proof, image types)
+   355→- [designmd.app — Bento Grids](https://designmd.app/library/bento-grids) — bento system tokens, motion specs
+   356→- [imini.com — AI Agent Landing Page guide](https://imini.com/blogs/ai-agent-landing-page) — AI-agent page structure (jobs, outputs, workflow, comparison)
+   357→- [medium.com/@marias_martin — Landing Pages in 2025 for AI Products](https://medium.com/@marias_martin/landing-pages-in-2025-and-how-to-get-them-right-for-ai-products-802ebf43a1ee) — "let the page breathe," Granola/Ciro references
+   358→- [zoho.com — 13 common landing page mistakes 2026](https://www.zoho.com/landingpage/landing-page-mistakes.html); [saashero.net](https://www.saashero.net/design/common-landing-page-optimization-mistakes); [ventureharbour.com](https://ventureharbour.com/landing-page-mistakes-to-avoid) — mistakes compendium
+   359→- [framer.com marketplace](https://www.framer.com/marketplace/components/magnetic-button-01) & [Spotlighthover](https://www.framer.com/community/marketplace/components/spotlighthover) — magnetic button / spotlight pattern specs
+   360→- [annnimate.com — Marquee pattern](https://annnimate.com/patterns/marquee) — scroll-velocity-reactive marquee
+   361→- [exclusiveaddons.com](https://exclusiveaddons.com/best-color-for-websites) — dark-mode contrast ratios (7:1, saturation cap 80%)
+   362→
+   363→---
+   364→
+   365→*End of brief. Built to be implemented directly — every recommendation above maps to a concrete token, component, or section.*
+   366→
