@@ -1,6 +1,6 @@
 # ---- Build stage ----
 # Delegate.ai — production Docker image for Render free tier (512MB limit)
-# Uses the proven node:20-alpine + npm ci pattern (matches PatikaGo's successful deploy)
+# Uses the proven node:20-alpine + npm ci pattern with increased heap for Firebase
 FROM node:20-alpine AS builder
 WORKDIR /app
 
@@ -16,8 +16,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
 # Build with webpack (Turbopack OOMs on Render free tier's 512MB limit)
-# Cap Node heap at 1.5GB to stay within Render's build memory limit
-RUN NODE_OPTIONS="--max-old-space-size=1536" npx next build --webpack && \
+# Cap Node heap at 2GB to handle Firebase SDK bundle size
+# Skip ESLint during build (we lint separately)
+RUN NODE_OPTIONS="--max-old-space-size=2048" npx next build --webpack --no-lint && \
     cp -r .next/static .next/standalone/.next/ && \
     cp -r public .next/standalone/
 
