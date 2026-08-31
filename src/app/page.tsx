@@ -14,6 +14,7 @@ import { CaseStudySection } from '@/components/delegate/case-study-section';
 import { PricingSection } from '@/components/delegate/pricing-section';
 import { FaqSection } from '@/components/delegate/faq-section';
 import { FinalCtaSection } from '@/components/delegate/final-cta-section';
+import { DemoVideoPlayer } from '@/components/demo/demo-video-player';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -81,31 +82,71 @@ export default function Home() {
           />
         </HeroSection>
 
-        {/* ============= LIVE PRODUCT MOCKUP ============= */}
+        {/* ============= 90-SECOND DEMO VIDEO ============= */}
         <section id="demo" className="relative pb-24 md:pb-32">
           <div className="max-w-6xl mx-auto px-6">
+            <Reveal className="text-center flex flex-col gap-3 mb-10">
+              <span className="text-eyebrow">Product demo</span>
+              <h2 className="text-h2 text-[#F5F7FA]">
+                Watch Delegate.ai ship{' '}
+                <span className="text-serif italic text-[#c4abff]">3 actions</span>{' '}
+                in 90 seconds
+              </h2>
+              <p className="text-[16px] text-[#A9B4C4] max-w-xl mx-auto leading-[1.6]">
+                A real, scripted run of the agent — from transcript paste to
+                email draft, calendar event, and CRM update.
+              </p>
+            </Reveal>
+
             <Reveal>
               <div className="relative">
-                {/* Ambient glow behind mockup */}
+                {/* Ambient glow behind player */}
                 <div
-                  className="absolute -inset-4 rounded-3xl opacity-30 blur-3xl pointer-events-none"
+                  className="absolute -inset-4 rounded-3xl opacity-25 blur-3xl pointer-events-none"
+                  style={{
+                    background:
+                      'linear-gradient(110deg, rgba(139,92,246,0.5), rgba(59,130,246,0.4))',
+                  }}
+                />
+                <DemoVideoPlayer />
+              </div>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[12px] text-[#6B7689] font-mono">
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse" />
+                  Auto-plays on scroll · pauses when out of view
+                </span>
+                <span>Real product render · not a screenshot · 100s loop</span>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ============= LIVE ACTION CASCADE (secondary supporting visual) ============= */}
+        <section className="relative pb-24 md:pb-32">
+          <div className="max-w-6xl mx-auto px-6">
+            <Reveal className="text-center flex flex-col gap-2 mb-8">
+              <span className="text-eyebrow">Or try it live</span>
+              <h3 className="text-[22px] font-semibold tracking-[-0.02em] text-[#F5F7FA]">
+                Watch the agent parse a transcript in real time
+              </h3>
+              <p className="text-[14px] text-[#A9B4C4] max-w-xl mx-auto">
+                The looping simulation below shows the action cascade — pause
+                on hover to inspect any moment.
+              </p>
+            </Reveal>
+            <Reveal>
+              <div className="relative">
+                <div
+                  className="absolute -inset-4 rounded-3xl opacity-20 blur-3xl pointer-events-none"
                   style={{
                     background:
                       'linear-gradient(110deg, rgba(139,92,246,0.5), rgba(59,130,246,0.4))',
                   }}
                 />
                 <ActionCascadeMockup />
-              </div>
-            </Reveal>
-
-            {/* Caption */}
-            <Reveal delay={120}>
-              <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[12px] text-[#6B7689] font-mono">
-                <span className="inline-flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse" />
-                  Live agent simulation — pause on hover
-                </span>
-                <span>Real product render · not a screenshot</span>
               </div>
             </Reveal>
           </div>
