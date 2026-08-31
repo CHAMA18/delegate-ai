@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: delegate-ai
+    runtime: node
+    plan: starter
+    region: oregon
+    branch: main
+    repo: https://github.com/render-examples/nextjs
+    buildCommand: bun install && bun run build
+    startCommand: bun run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: '1'
+    healthCheckPath: /
+    autoDeploy: true
+    numInstances: 1

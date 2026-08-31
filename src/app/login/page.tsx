@@ -285,7 +285,7 @@ function SuccessState({ mode, email }: { mode: 'login' | 'signup'; email: string
       </div>
       {mode === 'login' && (
         <a
-          href="/dashboard"
+          href="/home"
           className="btn-primary mt-2"
         >
           Go to dashboard

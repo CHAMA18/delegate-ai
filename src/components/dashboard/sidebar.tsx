@@ -8,10 +8,11 @@ import { MagneticButton } from '@/components/delegate/magnetic-button';
  * Brief: hairline borders, surface elevation tokens, single violet accent for active state.
  */
 const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: 'dashboard', active: true },
-  { id: 'history', label: 'History', icon: 'history', active: false },
-  { id: 'integrations', label: 'Connected Apps', icon: 'account_tree', active: false },
-  { id: 'settings', label: 'Settings', icon: 'settings', active: false },
+  { id: 'home', label: 'Home', icon: 'home', href: '/home' },
+  { id: 'dashboard', label: 'Workspace', icon: 'dashboard', href: '/dashboard' },
+  { id: 'history', label: 'History', icon: 'history', href: '#' },
+  { id: 'integrations', label: 'Connected Apps', icon: 'account_tree', href: '#' },
+  { id: 'settings', label: 'Settings', icon: 'settings', href: '#' },
 ];
 
 export function DashboardSidebar({
@@ -46,7 +47,7 @@ export function DashboardSidebar({
           return (
             <a
               key={item.id}
-              href="#"
+              href={item.href}
               className={`group flex items-center gap-3 px-3 py-2 rounded-lg text-[14px] font-medium transition-all duration-200 relative ${
                 isActive
                   ? 'bg-[#102544] text-[#F5F7FA]'
