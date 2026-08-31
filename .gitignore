@@ -8,9 +8,8 @@ node_modules/
 coverage/
 
 # Next.js
-.next/
-!.next/standalone/
-!.next/standalone/**
+.next/*
+!.next/standalone
 out/
 next-env.d.ts
 

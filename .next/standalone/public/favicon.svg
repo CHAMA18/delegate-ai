@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Delegate.ai — favicon v2 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Delegate.ai">
+  <defs>
+    <linearGradient id="favGradV2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c4abff"/>
+      <stop offset="50%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="64" height="64" rx="14" fill="#031427"/>
+  <g opacity="0.6">
+    <circle cx="22" cy="32" r="1" fill="url(#favGradV2)"/>
+    <circle cx="26" cy="32" r="0.9" fill="url(#favGradV2)"/>
+    <circle cx="30" cy="32" r="0.7" fill="url(#favGradV2)"/>
+  </g>
+  <path d="M 12 18 L 12 46 L 22 46 L 22 37 L 31 32 L 22 27 L 22 18 Z" fill="url(#favGradV2)"/>
+  <path
+    d="M 35 18 L 35 27 L 44 32 L 35 37 L 35 46 L 54 32 Z"
+    fill="none"
+    stroke="url(#favGradV2)"
+    stroke-width="2.5"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+</svg>
