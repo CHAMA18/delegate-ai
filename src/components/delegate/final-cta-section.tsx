@@ -34,7 +34,7 @@ export function FinalCtaSection() {
                 no sales call — just execution.
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-3 mt-3">
-                <a href="/dashboard" className="btn-primary group">
+                <a href="/signup" className="btn-primary group">
                   Start delegating
                   <span
                     className="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-0.5"

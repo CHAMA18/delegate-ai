@@ -59,12 +59,12 @@ export default function Home() {
 
           <div className="flex items-center gap-2">
             <a
-              href="#"
+              href="/login"
               className="hidden sm:inline-flex px-4 py-2 rounded-full text-[14px] text-[#A9B4C4] hover:text-[#F5F7FA] transition-colors"
             >
               Login
             </a>
-            <a href="/dashboard" className="btn-primary text-[14px] py-2 px-5">
+            <a href="/signup" className="btn-primary text-[14px] py-2 px-5">
               Start free
             </a>
           </div>
