@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { getFirebase } from '@/lib/firebase';
 import { useAuth } from '@/hooks/use-auth';
 import { trackEvent, EVENTS } from '@/lib/analytics';
 
@@ -28,8 +27,14 @@ export function DashboardTopbar() {
 
   const handleSignOut = async () => {
     trackEvent(EVENTS.SIGN_OUT);
-    await signOut(auth);
-    window.location.href = '/';
+    try {
+      const { auth } = await getFirebase();
+      const { signOut } = await import('firebase/auth');
+      await signOut(auth);
+    } catch {
+      // Silent — redirect anyway
+    }
+    window.location.assign('/');
   };
 
   return (

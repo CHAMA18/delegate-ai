@@ -1,11 +1,6 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import {
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  updateProfile,
-} from 'firebase/auth';
 import { AuthBrandPanel } from '@/components/auth/brand-panel';
 import {
   GoogleOAuthButton,
@@ -13,7 +8,7 @@ import {
   PasswordInput,
   TextInput,
 } from '@/components/auth/form-fields';
-import { auth, googleProvider } from '@/lib/firebase';
+import { getFirebase } from '@/lib/firebase';
 import { trackEvent, EVENTS } from '@/lib/analytics';
 
 type AuthError = {
@@ -82,16 +77,16 @@ export default function SignupPage() {
     trackEvent(EVENTS.SIGN_UP_ATTEMPT, { method: 'password' });
 
     try {
+      const { auth } = await getFirebase();
+      const { createUserWithEmailAndPassword, updateProfile } = await import('firebase/auth');
       const cred = await createUserWithEmailAndPassword(auth, email, password);
-      // Set display name from the name field
       if (name.trim()) {
         await updateProfile(cred.user, { displayName: name.trim() });
       }
       trackEvent(EVENTS.SIGN_UP_SUCCESS, { method: 'password' });
       setSubmitted(true);
-      // Auto-redirect to /home after showing the success state
       setTimeout(() => {
-        window.location.href = '/home';
+        window.location.assign('/home');
       }, 2000);
     } catch (err) {
       trackEvent(EVENTS.SIGN_UP_FAILURE, {
@@ -110,11 +105,13 @@ export default function SignupPage() {
     trackEvent(EVENTS.GOOGLE_OAUTH_CLICK, { location: 'signup' });
 
     try {
+      const { auth, googleProvider } = await getFirebase();
+      const { signInWithPopup } = await import('firebase/auth');
       await signInWithPopup(auth, googleProvider);
       trackEvent(EVENTS.SIGN_UP_SUCCESS, { method: 'google' });
       setSubmitted(true);
       setTimeout(() => {
-        window.location.href = '/home';
+        window.location.assign('/home');
       }, 1200);
     } catch (err) {
       trackEvent(EVENTS.SIGN_UP_FAILURE, {

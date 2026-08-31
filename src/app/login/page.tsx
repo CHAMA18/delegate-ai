@@ -1,11 +1,6 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  sendPasswordResetEmail,
-} from 'firebase/auth';
 import { AuthBrandPanel } from '@/components/auth/brand-panel';
 import {
   GoogleOAuthButton,
@@ -13,7 +8,7 @@ import {
   PasswordInput,
   TextInput,
 } from '@/components/auth/form-fields';
-import { auth, googleProvider } from '@/lib/firebase';
+import { getFirebase } from '@/lib/firebase';
 import { trackEvent, EVENTS } from '@/lib/analytics';
 
 type AuthError = {
@@ -71,12 +66,13 @@ export default function LoginPage() {
     trackEvent(EVENTS.SIGN_IN_ATTEMPT, { method: 'password' });
 
     try {
+      const { auth } = await getFirebase();
+      const { signInWithEmailAndPassword } = await import('firebase/auth');
       await signInWithEmailAndPassword(auth, email, password);
       trackEvent(EVENTS.SIGN_IN_SUCCESS, { method: 'password' });
       setSubmitted(true);
-      // Redirect to /home after a brief success state
       setTimeout(() => {
-        window.location.href = '/home';
+        window.location.assign('/home');
       }, 1200);
     } catch (err) {
       trackEvent(EVENTS.SIGN_IN_FAILURE, {
@@ -95,11 +91,13 @@ export default function LoginPage() {
     trackEvent(EVENTS.GOOGLE_OAUTH_CLICK, { location: 'login' });
 
     try {
+      const { auth, googleProvider } = await getFirebase();
+      const { signInWithPopup } = await import('firebase/auth');
       await signInWithPopup(auth, googleProvider);
       trackEvent(EVENTS.SIGN_IN_SUCCESS, { method: 'google' });
       setSubmitted(true);
       setTimeout(() => {
-        window.location.href = '/home';
+        window.location.assign('/home');
       }, 800);
     } catch (err) {
       trackEvent(EVENTS.SIGN_IN_FAILURE, {
@@ -123,6 +121,8 @@ export default function LoginPage() {
       return;
     }
     try {
+      const { auth } = await getFirebase();
+      const { sendPasswordResetEmail } = await import('firebase/auth');
       await sendPasswordResetEmail(auth, email);
       setResetSent(true);
     } catch {
