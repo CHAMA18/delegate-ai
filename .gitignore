@@ -9,6 +9,8 @@ coverage/
 
 # Next.js
 .next/
+!.next/standalone/
+!.next/standalone/**
 out/
 next-env.d.ts
 
