@@ -1,16 +1,13 @@
 # Delegate.ai — runtime-only Docker image (pre-built locally)
-# Avoids Render free tier OOM during next build with Firebase SDK
-FROM node:20-alpine AS runner
+FROM node:20-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=10000
 ENV HOSTNAME=0.0.0.0
 
-# Copy pre-built standalone output
+# Copy the entire pre-built standalone directory
 COPY .next/standalone ./
-COPY .next/standalone/.next/static ./.next/static
-COPY .next/standalone/public ./public
 
 EXPOSE 10000
 CMD ["node", "server.js"]
