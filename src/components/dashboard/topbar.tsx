@@ -1,6 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { useAuth } from '@/hooks/use-auth';
+import { trackEvent, EVENTS } from '@/lib/analytics';
 
 /**
  * Dashboard top app bar — fixed below sidebar offset.
@@ -8,6 +12,25 @@ import { useState } from 'react';
  */
 export function DashboardTopbar() {
   const [searchFocused, setSearchFocused] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { user } = useAuth();
+
+  const displayName = user?.displayName || user?.email?.split('@')[0] || 'there';
+  const initials =
+    user?.displayName
+      ?.split(' ')
+      .map((w) => w[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase() ||
+    user?.email?.slice(0, 2).toUpperCase() ||
+    'MK';
+
+  const handleSignOut = async () => {
+    trackEvent(EVENTS.SIGN_OUT);
+    await signOut(auth);
+    window.location.href = '/';
+  };
 
   return (
     <header className="fixed top-0 right-0 w-[calc(100%-256px)] h-16 z-40 hidden md:flex items-center justify-between px-6 glass-nav">
@@ -87,22 +110,85 @@ export function DashboardTopbar() {
         {/* Separator */}
         <div className="w-px h-6 bg-[rgba(255,255,255,0.08)] mx-1" />
 
-        {/* User avatar */}
-        <button className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full hover:bg-[#102544] transition-colors group">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#8B5CF6] to-[#3B82F6] flex items-center justify-center text-[12px] font-bold text-white">
-            MK
-          </div>
-          <div className="hidden lg:flex flex-col text-left leading-tight">
-            <span className="text-[12px] font-medium text-[#F5F7FA]">Maya K.</span>
-            <span className="text-[10px] text-[#6B7689] font-mono">Vertex Labs</span>
-          </div>
-          <span
-            className="material-symbols-outlined text-[16px] text-[#6B7689] group-hover:text-[#A9B4C4] transition-colors"
-            style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}
+        {/* User avatar — dropdown with sign-out */}
+        <div className="relative">
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full hover:bg-[#102544] transition-colors group"
           >
-            expand_more
-          </span>
-        </button>
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#8B5CF6] to-[#3B82F6] flex items-center justify-center text-[12px] font-bold text-white">
+              {initials}
+            </div>
+            <div className="hidden lg:flex flex-col text-left leading-tight">
+              <span className="text-[12px] font-medium text-[#F5F7FA]">
+                {displayName.length > 12 ? displayName.slice(0, 12) + '…' : displayName}
+              </span>
+              <span className="text-[10px] text-[#6B7689] font-mono truncate max-w-[120px]">
+                {user?.email || 'Vertex Labs'}
+              </span>
+            </div>
+            <span
+              className="material-symbols-outlined text-[16px] text-[#6B7689] group-hover:text-[#A9B4C4] transition-colors"
+              style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}
+            >
+              {menuOpen ? 'expand_less' : 'expand_more'}
+            </span>
+          </button>
+
+          {/* Dropdown menu */}
+          {menuOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-40"
+                onClick={() => setMenuOpen(false)}
+              />
+              <div className="absolute right-0 top-full mt-2 w-60 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#0A1E36] backdrop-blur-xl shadow-elevated z-50 overflow-hidden">
+                <div className="p-3 border-b border-[rgba(255,255,255,0.06)]">
+                  <div className="text-[13px] font-medium text-[#F5F7FA] truncate">
+                    {user?.displayName || displayName}
+                  </div>
+                  <div className="text-[11px] text-[#6B7689] font-mono truncate">
+                    {user?.email}
+                  </div>
+                </div>
+                <div className="p-1.5">
+                  <button className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-[13px] text-[#A9B4C4] hover:bg-[#102544] hover:text-[#F5F7FA] transition-colors">
+                    <span
+                      className="material-symbols-outlined text-[16px]"
+                      style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}
+                    >
+                      person
+                    </span>
+                    Profile
+                  </button>
+                  <button className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-[13px] text-[#A9B4C4] hover:bg-[#102544] hover:text-[#F5F7FA] transition-colors">
+                    <span
+                      className="material-symbols-outlined text-[16px]"
+                      style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}
+                    >
+                      settings
+                    </span>
+                    Settings
+                  </button>
+                </div>
+                <div className="p-1.5 border-t border-[rgba(255,255,255,0.06)]">
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-[13px] text-[#F87171] hover:bg-[rgba(248,113,113,0.1)] transition-colors"
+                  >
+                    <span
+                      className="material-symbols-outlined text-[16px]"
+                      style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}
+                    >
+                      logout
+                    </span>
+                    Sign out
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );

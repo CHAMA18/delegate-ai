@@ -10,6 +10,7 @@ import { AgentActivityStream } from '@/components/home/agent-activity-stream';
 import { IntegrationsGrid } from '@/components/home/integrations-grid';
 import { UpcomingActions } from '@/components/home/upcoming-actions';
 import { Reveal } from '@/components/delegate/reveal';
+import { useAuth } from '@/hooks/use-auth';
 
 /**
  * Post-authentication overview dashboard — the first thing users see
@@ -17,12 +18,37 @@ import { Reveal } from '@/components/delegate/reveal';
  * live agent activity, integration status, and upcoming actions.
  */
 export default function HomePage() {
+  const { user, loading } = useAuth();
   const [, setRunId] = useState(0);
 
   const handleNewAction = useCallback(() => {
     setRunId((n) => n + 1);
     window.location.href = '/dashboard';
   }, []);
+
+  // Auth guard — redirect to /login if not signed in
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#031427] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <span
+            className="material-symbols-outlined text-[32px] text-[#c4abff] animate-spin"
+            style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}
+          >
+            progress_activity
+          </span>
+          <span className="text-[12px] text-[#6B7689] font-mono">Loading workspace…</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    if (typeof window !== 'undefined') {
+      window.location.assign('/login');
+    }
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-[#031427] text-[#F5F7FA] overflow-hidden flex">
@@ -34,7 +60,7 @@ export default function HomePage() {
         <main className="flex-1 mt-16 p-6 md:p-8 max-w-7xl mx-auto w-full flex flex-col gap-6">
           {/* Welcome banner */}
           <Reveal>
-            <WelcomeBanner userName="Maya" />
+            <WelcomeBanner userName={user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'there'} />
           </Reveal>
 
           {/* Stat cards row */}

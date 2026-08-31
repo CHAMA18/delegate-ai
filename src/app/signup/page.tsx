@@ -1,6 +1,11 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  updateProfile,
+} from 'firebase/auth';
 import { AuthBrandPanel } from '@/components/auth/brand-panel';
 import {
   GoogleOAuthButton,
@@ -8,6 +13,40 @@ import {
   PasswordInput,
   TextInput,
 } from '@/components/auth/form-fields';
+import { auth, googleProvider } from '@/lib/firebase';
+import { trackEvent, EVENTS } from '@/lib/analytics';
+
+type AuthError = {
+  code: string;
+  message: string;
+};
+
+function friendlyError(err: unknown): string {
+  const e = err as AuthError;
+  switch (e?.code) {
+    case 'auth/email-already-in-use':
+      return 'An account with this email already exists. Try signing in.';
+    case 'auth/invalid-email':
+      return 'That email address is malformed.';
+    case 'auth/weak-password':
+      return 'Password should be at least 8 characters.';
+    case 'auth/operation-not-allowed':
+      return 'Email/password sign-up is not enabled. Contact support.';
+    case 'auth/popup-closed-by-user':
+      return 'Google sign-up was cancelled.';
+    case 'auth/network-request-failed':
+      return 'Network error. Check your connection and try again.';
+    default:
+      return 'Something went wrong. Please try again.';
+  }
+}
+
+interface Errors {
+  name?: string;
+  email?: string;
+  password?: string;
+  agree?: string;
+}
 
 export default function SignupPage() {
   const [name, setName] = useState('');
@@ -16,11 +55,13 @@ export default function SignupPage() {
   const [company, setCompany] = useState('');
   const [agree, setAgree] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string; agree?: string }>({});
+  const [errors, setErrors] = useState<Errors>({});
+  const [formError, setFormError] = useState('');
 
   const validate = () => {
-    const e: typeof errors = {};
+    const e: Errors = {};
     if (!name.trim()) e.name = 'Please enter your name';
     if (!email) e.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'Enter a valid work email';
@@ -34,12 +75,56 @@ export default function SignupPage() {
     e.preventDefault();
     const e2 = validate();
     setErrors(e2);
+    setFormError('');
     if (Object.keys(e2).length > 0) return;
 
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1400));
-    setSubmitting(false);
-    setSubmitted(true);
+    trackEvent(EVENTS.SIGN_UP_ATTEMPT, { method: 'password' });
+
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      // Set display name from the name field
+      if (name.trim()) {
+        await updateProfile(cred.user, { displayName: name.trim() });
+      }
+      trackEvent(EVENTS.SIGN_UP_SUCCESS, { method: 'password' });
+      setSubmitted(true);
+      // Auto-redirect to /home after showing the success state
+      setTimeout(() => {
+        window.location.href = '/home';
+      }, 2000);
+    } catch (err) {
+      trackEvent(EVENTS.SIGN_UP_FAILURE, {
+        method: 'password',
+        error_code: (err as AuthError)?.code,
+      });
+      setFormError(friendlyError(err));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleGoogle = async () => {
+    setFormError('');
+    setGoogleLoading(true);
+    trackEvent(EVENTS.GOOGLE_OAUTH_CLICK, { location: 'signup' });
+
+    try {
+      await signInWithPopup(auth, googleProvider);
+      trackEvent(EVENTS.SIGN_UP_SUCCESS, { method: 'google' });
+      setSubmitted(true);
+      setTimeout(() => {
+        window.location.href = '/home';
+      }, 1200);
+    } catch (err) {
+      trackEvent(EVENTS.SIGN_UP_FAILURE, {
+        method: 'google',
+        error_code: (err as AuthError)?.code,
+      });
+      setFormError(friendlyError(err));
+    } finally {
+      setGoogleLoading(false);
+    }
   };
 
   return (
@@ -94,9 +179,24 @@ export default function SignupPage() {
               </div>
 
               {/* Google OAuth */}
-              <GoogleOAuthButton label="Sign up with Google" />
+              <div onClick={handleGoogle}>
+                <GoogleOAuthButton label={googleLoading ? 'Connecting…' : 'Sign up with Google'} />
+              </div>
 
               <OrDivider />
+
+              {/* Form-level error */}
+              {formError && (
+                <div className="flex items-start gap-2 p-3 rounded-lg border border-[rgba(248,113,113,0.3)] bg-[rgba(248,113,113,0.05)] text-[13px] text-[#F87171]">
+                  <span
+                    className="material-symbols-outlined text-[16px] mt-0.5"
+                    style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}
+                  >
+                    error
+                  </span>
+                  <span>{formError}</span>
+                </div>
+              )}
 
               {/* Sign up form */}
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -310,7 +410,6 @@ function SuccessState({ email }: { email: string }) {
             </span>
           </div>
         </div>
-        {/* Floating sparkle accents */}
         <span
           className="material-symbols-outlined absolute -top-1 -right-1 text-[14px] text-[#c4abff] animate-pulse"
           style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}
@@ -327,27 +426,25 @@ function SuccessState({ email }: { email: string }) {
 
       <div className="flex flex-col gap-1.5">
         <h2 className="text-[24px] font-semibold tracking-[-0.02em] text-[#F5F7FA]">
-          Check your inbox
+          Account created
         </h2>
         <p className="text-[14px] text-[#A9B4C4] max-w-xs leading-[1.55]">
-          We&apos;ve sent a verification link to{' '}
+          Welcome to Delegate.ai. We&apos;ve sent a verification link to{' '}
           <span className="text-[#F5F7FA] font-medium font-mono text-[13px]">{email}</span>.
-          Click it to activate your account.
+          Redirecting you to your dashboard…
         </p>
       </div>
 
       <div className="flex flex-col gap-2 items-center mt-2 w-full">
-        <button
-          className="btn-secondary text-[13px]"
-        >
+        <a href="/home" className="btn-primary text-[13px]">
           <span
             className="material-symbols-outlined text-[16px]"
             style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}
           >
-            refresh
+            arrow_forward
           </span>
-          Resend email
-        </button>
+          Go to dashboard
+        </a>
         <p className="text-[11px] text-[#6B7689] font-mono">
           Didn&apos;t get it? Check spam — or{' '}
           <a href="/login" className="text-[#c4abff] hover:underline">sign in</a>{' '}

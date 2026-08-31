@@ -5,8 +5,10 @@ import { DashboardSidebar } from '@/components/dashboard/sidebar';
 import { DashboardTopbar } from '@/components/dashboard/topbar';
 import { MeetingContextPanel } from '@/components/dashboard/meeting-context-panel';
 import { AgentPanel } from '@/components/dashboard/agent-panel';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function DashboardPage() {
+  const { user, loading } = useAuth();
   const [transcript, setTranscript] = useState('');
   const [isExecuting, setIsExecuting] = useState(false);
   const [runId, setRunId] = useState(0); // bump to retrigger simulation
@@ -31,6 +33,30 @@ export default function DashboardPage() {
       textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, []);
+
+  // Auth guard
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#031427] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <span
+            className="material-symbols-outlined text-[32px] text-[#c4abff] animate-spin"
+            style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}
+          >
+            progress_activity
+          </span>
+          <span className="text-[12px] text-[#6B7689] font-mono">Loading workspace…</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    if (typeof window !== 'undefined') {
+      window.location.assign('/login');
+    }
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-[#031427] text-[#F5F7FA] overflow-hidden flex">

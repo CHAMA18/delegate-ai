@@ -1,6 +1,11 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  sendPasswordResetEmail,
+} from 'firebase/auth';
 import { AuthBrandPanel } from '@/components/auth/brand-panel';
 import {
   GoogleOAuthButton,
@@ -8,14 +13,46 @@ import {
   PasswordInput,
   TextInput,
 } from '@/components/auth/form-fields';
+import { auth, googleProvider } from '@/lib/firebase';
+import { trackEvent, EVENTS } from '@/lib/analytics';
+
+type AuthError = {
+  code: string;
+  message: string;
+};
+
+function friendlyError(err: unknown): string {
+  const e = err as AuthError;
+  switch (e?.code) {
+    case 'auth/invalid-email':
+      return 'That email address is malformed.';
+    case 'auth/user-disabled':
+      return 'This account has been disabled.';
+    case 'auth/user-not-found':
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential':
+      return 'Invalid email or password.';
+    case 'auth/too-many-requests':
+      return 'Too many attempts. Try again in a few minutes.';
+    case 'auth/popup-closed-by-user':
+      return 'Google sign-in was cancelled.';
+    case 'auth/network-request-failed':
+      return 'Network error. Check your connection and try again.';
+    default:
+      return 'Something went wrong. Please try again.';
+  }
+}
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(true);
+  const [remember] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState('');
+  const [formError, setFormError] = useState('');
+  const [resetSent, setResetSent] = useState(false);
 
   const validateEmail = (v: string) => {
     if (!v) return 'Email is required';
@@ -27,13 +64,70 @@ export default function LoginPage() {
     e.preventDefault();
     const err = validateEmail(email);
     setEmailError(err);
+    setFormError('');
     if (err || !password) return;
 
     setSubmitting(true);
-    // Simulate API call
-    await new Promise((r) => setTimeout(r, 1400));
-    setSubmitting(false);
-    setSubmitted(true);
+    trackEvent(EVENTS.SIGN_IN_ATTEMPT, { method: 'password' });
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      trackEvent(EVENTS.SIGN_IN_SUCCESS, { method: 'password' });
+      setSubmitted(true);
+      // Redirect to /home after a brief success state
+      setTimeout(() => {
+        window.location.href = '/home';
+      }, 1200);
+    } catch (err) {
+      trackEvent(EVENTS.SIGN_IN_FAILURE, {
+        method: 'password',
+        error_code: (err as AuthError)?.code,
+      });
+      setFormError(friendlyError(err));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleGoogle = async () => {
+    setFormError('');
+    setGoogleLoading(true);
+    trackEvent(EVENTS.GOOGLE_OAUTH_CLICK, { location: 'login' });
+
+    try {
+      await signInWithPopup(auth, googleProvider);
+      trackEvent(EVENTS.SIGN_IN_SUCCESS, { method: 'google' });
+      setSubmitted(true);
+      setTimeout(() => {
+        window.location.href = '/home';
+      }, 800);
+    } catch (err) {
+      trackEvent(EVENTS.SIGN_IN_FAILURE, {
+        method: 'google',
+        error_code: (err as AuthError)?.code,
+      });
+      setFormError(friendlyError(err));
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!email) {
+      setEmailError('Enter your email first, then tap "Forgot password?"');
+      return;
+    }
+    const err = validateEmail(email);
+    if (err) {
+      setEmailError(err);
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setResetSent(true);
+    } catch {
+      setFormError('Could not send reset email. Try again.');
+    }
   };
 
   return (
@@ -88,9 +182,37 @@ export default function LoginPage() {
               </div>
 
               {/* Google OAuth */}
-              <GoogleOAuthButton label="Continue with Google" />
+              <div onClick={handleGoogle}>
+                <GoogleOAuthButton label={googleLoading ? 'Connecting…' : 'Continue with Google'} />
+              </div>
 
               <OrDivider />
+
+              {/* Form-level error */}
+              {formError && (
+                <div className="flex items-start gap-2 p-3 rounded-lg border border-[rgba(248,113,113,0.3)] bg-[rgba(248,113,113,0.05)] text-[13px] text-[#F87171]">
+                  <span
+                    className="material-symbols-outlined text-[16px] mt-0.5"
+                    style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}
+                  >
+                    error
+                  </span>
+                  <span>{formError}</span>
+                </div>
+              )}
+
+              {/* Reset confirmation */}
+              {resetSent && (
+                <div className="flex items-start gap-2 p-3 rounded-lg border border-[rgba(52,211,153,0.3)] bg-[rgba(52,211,153,0.05)] text-[13px] text-[#34D399]">
+                  <span
+                    className="material-symbols-outlined text-[16px] mt-0.5"
+                    style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}
+                  >
+                    mark_email_read
+                  </span>
+                  <span>Password reset email sent to <strong className="font-mono">{email}</strong>. Check your inbox.</span>
+                </div>
+              )}
 
               {/* Email/password form */}
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -102,6 +224,7 @@ export default function LoginPage() {
                   onChange={(v) => {
                     setEmail(v);
                     if (emailError) setEmailError('');
+                    if (resetSent) setResetSent(false);
                   }}
                   placeholder="you@company.com"
                   autoComplete="email"
@@ -124,7 +247,6 @@ export default function LoginPage() {
                       type="button"
                       role="checkbox"
                       aria-checked={remember}
-                      onClick={() => setRemember((r) => !r)}
                       className={`w-[18px] h-[18px] rounded-md border flex items-center justify-center transition-all ${
                         remember
                           ? 'border-[#8B5CF6] bg-[#8B5CF6]'
@@ -144,12 +266,13 @@ export default function LoginPage() {
                       Keep me signed in
                     </span>
                   </label>
-                  <a
-                    href="#"
+                  <button
+                    type="button"
+                    onClick={handleResetPassword}
                     className="text-[#c4abff] hover:text-[#F5F7FA] font-medium transition-colors"
                   >
                     Forgot password?
-                  </a>
+                  </button>
                 </div>
 
                 {/* Submit */}
@@ -284,10 +407,7 @@ function SuccessState({ mode, email }: { mode: 'login' | 'signup'; email: string
         <p className="text-[14px] text-[#A9B4C4] max-w-xs">{body}</p>
       </div>
       {mode === 'login' && (
-        <a
-          href="/home"
-          className="btn-primary mt-2"
-        >
+        <a href="/home" className="btn-primary mt-2">
           Go to dashboard
           <span
             className="material-symbols-outlined text-[18px]"
