@@ -64,7 +64,7 @@ export default function Home() {
             >
               Login
             </a>
-            <a href="#cta" className="btn-primary text-[14px] py-2 px-5">
+            <a href="/dashboard" className="btn-primary text-[14px] py-2 px-5">
               Start free
             </a>
           </div>

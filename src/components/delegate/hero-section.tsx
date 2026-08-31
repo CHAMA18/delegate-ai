@@ -67,7 +67,7 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
 
           {/* Dual CTA */}
           <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
-            <a href="#cta" className="btn-primary group">
+            <a href="/dashboard" className="btn-primary group">
               Start delegating
               <span
                 className="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-0.5"
