@@ -1,5 +1,4 @@
 node_modules
-.next
 .git
 .env
 .env.local
@@ -17,3 +16,4 @@ mini-services
 upload
 DELEGATE_LANDING_PAGE_BRIEF.md
 README.md
+# Note: .next/standalone is NOT ignored — it's the pre-built app
